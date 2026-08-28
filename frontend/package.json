@@ -1,0 +1,1 @@
+{"name":"@ostris/idax-ostris-frontend","version":"0.1.0","private":true,"type":"module","scripts":{"test":"node scripts/validate.mjs","build":"node scripts/validate.mjs","i18n:validate":"node scripts/validate.mjs"}}

@@ -1,0 +1,6 @@
+package es.idynamicsax.ostris.core;
+import static org.junit.jupiter.api.Assertions.*; import java.util.*; import java.util.concurrent.*; import org.junit.jupiter.api.Test;
+class ConcurrencyInvariantTest {
+ @Test void concurrentAllocationIsUniqueContiguousAndTotallyOrdered()throws Exception{var sequence=new CommunitySequence(1);int count=1000;Set<Long> values=ConcurrentHashMap.newKeySet();try(var pool=Executors.newFixedThreadPool(16)){List<Callable<Void>> jobs=new ArrayList<>();for(int i=0;i<count;i++)jobs.add(()->{values.add(sequence.allocate());return null;});for(var f:pool.invokeAll(jobs))f.get();}assertEquals(count,values.size());assertEquals(1,Collections.min(values));assertEquals(count,Collections.max(values));}
+ @Test void floorDecisionRejectsCompetingDebitAfterFirstWins(){var balance=new java.util.concurrent.atomic.AtomicReference<>(new CreditPosition(OstrisAmount.parse("0"),OstrisAmount.parse("-100")));var debit=OstrisAmount.parse("-60");long accepted=java.util.stream.IntStream.range(0,2).parallel().filter(i->{synchronized(balance){var current=balance.get();if(!current.permits(debit,false))return false;balance.set(new CreditPosition(current.balance().add(debit),current.creditFloor()));return true;}}).count();assertEquals(1,accepted);assertEquals("-60",balance.get().balance().wire());}
+}

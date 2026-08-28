@@ -1,0 +1,5 @@
+package es.idynamicsax.ostris.core;
+
+public enum RiskMetric {
+    FLOOR_UTILIZATION, COUNTERPARTY_CONCENTRATION, COUNTERPARTY_COUNT, RECENT_VOLUME, RECIPROCAL_EXPOSURE
+}

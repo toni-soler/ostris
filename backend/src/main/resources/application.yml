@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: idax-ostris-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/idaxdb}
+    username: ${SPRING_DATASOURCE_USERNAME:idax_backend}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  flyway:
+    enabled: false
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+server:
+  port: ${OSTRIS_BACKEND_PORT:8095}
+management:
+  endpoints.web.exposure.include: health,info,metrics
+  endpoint.health.probes.enabled: true
+idax:
+  auth:
+    mode: ${IDAX_AUTH_MODE:LOCAL}
+    token-validator: ${IDAX_AUTH_TOKEN_VALIDATOR:local}
+  ostris:
+    proof:
+      enabled: ${OSTRIS_PROOF_ENABLED:false}
+    ledger:
+      enabled: ${OSTRIS_LEDGER_ENABLED:false}
+      ledger-base-url: ${OSTRIS_LEDGER_BASE_URL:http://localhost:8086}
+      platform-base-url: ${OSTRIS_PLATFORM_BASE_URL:http://localhost:8080}
+      client-id: ${OSTRIS_LEDGER_SERVICE_CLIENT_ID:ostris-ledger-delivery}
+      client-secret: ${OSTRIS_LEDGER_SERVICE_CLIENT_SECRET:}
+      audience: ${OSTRIS_LEDGER_AUDIENCE:idax-ledger}
+      connect-timeout: ${OSTRIS_LEDGER_CONNECT_TIMEOUT:3s}
+      read-timeout: ${OSTRIS_LEDGER_READ_TIMEOUT:15s}
+      token-safety-window: ${OSTRIS_LEDGER_TOKEN_SAFETY_WINDOW:45s}
+      poll-interval: ${OSTRIS_LEDGER_POLL_INTERVAL:5s}
+      max-batch-size: ${OSTRIS_LEDGER_MAX_BATCH_SIZE:10}
+      processing-lease: ${OSTRIS_LEDGER_PROCESSING_LEASE:2m}
+      initial-retry-delay: ${OSTRIS_LEDGER_INITIAL_RETRY_DELAY:10s}
+      maximum-retry-delay: ${OSTRIS_LEDGER_MAXIMUM_RETRY_DELAY:15m}

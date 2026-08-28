@@ -1,0 +1,2 @@
+package es.idynamicsax.ostris.core;
+public enum ResolutionBasisType { FINAL_FINDING, FINAL_DISPUTE_RESOLUTION, FINAL_DEFAULT_DECISION, COMMUNITY_GOVERNANCE_DECISION }

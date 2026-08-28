@@ -1,0 +1,544 @@
+{
+  "suite": "OSTRIS-CORE-V0.1",
+  "wireFormat": "OSTRIS-CORE-JCS-1",
+  "canonicalization": [
+    {
+      "name": "property-order-nested-unicode",
+      "input": { "z": [3, { "b": "€", "a": "line\nfeed" }], "a": "alpha" },
+      "expectedCanonical": "{\"a\":\"alpha\",\"z\":[3,{\"a\":\"line\\nfeed\",\"b\":\"€\"}]}",
+      "expectedSha256": "d46508d202fcd7da385e5661a68bd9852af38ff44349be2101f2510f4e9cc2a1"
+    },
+    {
+      "name": "authorization-payload",
+      "input": {
+        "wireFormat": "OSTRIS-CORE-JCS-1",
+        "unitId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718294",
+        "transactionId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+        "references": {},
+        "purpose": "EXCHANGE",
+        "ostrisCoreVersion": "0.1",
+        "entries": [
+          {
+            "amount": "2050",
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296"
+          },
+          {
+            "amount": "-2050",
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297"
+          }
+        ],
+        "communityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293"
+      },
+      "expectedCanonical": "{\"communityId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293\",\"entries\":[{\"accountId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718296\",\"amount\":\"2050\"},{\"accountId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718297\",\"amount\":\"-2050\"}],\"ostrisCoreVersion\":\"0.1\",\"purpose\":\"EXCHANGE\",\"references\":{},\"transactionId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718295\",\"unitId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718294\",\"wireFormat\":\"OSTRIS-CORE-JCS-1\"}",
+      "expectedSha256": "8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5"
+    },
+    {
+      "name": "governance-authorization-payload",
+      "input": {
+        "wireFormat": "OSTRIS-CORE-JCS-1",
+        "unitId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718294",
+        "transactionId": "018f6f9a-7b1c-7a2b-8c3d-4e5f6071829a",
+        "resolutionBasis": {"type": "FINAL_FINDING", "id": "018f6f9a-7b1c-7a2b-8c3d-4e5f6071829b"},
+        "references": {"finalFindingId": "018f6f9a-7b1c-7a2b-8c3d-4e5f6071829b"},
+        "purpose": "PENALTY",
+        "ostrisCoreVersion": "0.1",
+        "entries": [
+          {"amount": "-50", "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296"},
+          {"amount": "50", "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297"}
+        ],
+        "coveredAccounts": ["018f6f9a-7b1c-7a2b-8c3d-4e5f60718296", "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297"],
+        "communityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+        "authorityPolicyVersion": 1,
+        "authorityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718298"
+      },
+      "expectedCanonical": "{\"authorityId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718298\",\"authorityPolicyVersion\":1,\"communityId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293\",\"coveredAccounts\":[\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718296\",\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718297\"],\"entries\":[{\"accountId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718296\",\"amount\":\"-50\"},{\"accountId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718297\",\"amount\":\"50\"}],\"ostrisCoreVersion\":\"0.1\",\"purpose\":\"PENALTY\",\"references\":{\"finalFindingId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f6071829b\"},\"resolutionBasis\":{\"id\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f6071829b\",\"type\":\"FINAL_FINDING\"},\"transactionId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f6071829a\",\"unitId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718294\",\"wireFormat\":\"OSTRIS-CORE-JCS-1\"}",
+      "expectedSha256": "f5e00af723fd4756b7ec27b6d270525c6e346ed1c14cd5761c1ab57f307622a6"
+    }
+  ],
+  "amounts": [
+    { "value": "0", "valid": true },
+    { "value": "100", "valid": true },
+    { "value": "-325", "valid": true },
+    { "value": "+100", "valid": false },
+    { "value": "00100", "valid": false },
+    { "value": "-0", "valid": false },
+    { "value": "1.0", "valid": false },
+    { "value": "1e3", "valid": false },
+    { "value": 100, "valid": false }
+  ],
+  "identifiers": [
+    { "value": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293", "valid": true },
+    { "value": "018F6F9A-7B1C-7A2B-8C3D-4E5F60718293", "valid": false },
+    { "value": "550e8400-e29b-41d4-a716-446655440000", "valid": false },
+    { "value": "018f6f9a7b1c7a2b8c3d4e5f60718293", "valid": false }
+  ],
+  "authorization": {
+    "name": "ed25519-authorization-test-only",
+    "warning": "TEST ONLY - DO NOT USE IN PRODUCTION",
+    "domain": "OSTRIS:TX:AUTH:V1",
+    "privateSeedBase64Url": "nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A",
+    "publicKeyBase64Url": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+    "payloadCase": "authorization-payload",
+    "expectedMessageSha256": "74269eb83af7fa005d23b73fd6cf14403b88c9761c10c859bbf8c673be2707e2",
+    "expectedSignatureBase64Url": "lrEGAhmjwhEYbpZRbxMhibFDc2JOLvleNthJcFqEdr-xUDkLwLQHxqqlVcoCbrsjvqNLm20YCiIQTB-4puHxDg"
+  },
+  "governanceAuthorization": {
+    "name": "ed25519-governance-authorization-test-only",
+    "warning": "TEST ONLY - DO NOT USE IN PRODUCTION",
+    "domain": "OSTRIS:TX:GOVAUTH:V1",
+    "privateSeedBase64Url": "nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A",
+    "publicKeyBase64Url": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+    "payloadCase": "governance-authorization-payload",
+    "expectedMessageSha256": "dfbb5a5e8296c6d3e44bb597399bd27a540dbac6e95bc2831a6b2a6f092e608d",
+    "expectedSignatureBase64Url": "9tEf5sZy3k0zjHTk3pdUyMn2jUI-KOXrlpEkhbPS1tPDj64D2CZ8yDVYevMSwsUq-JuDe0FfOiFrMIGgo9CpDA"
+  },
+  "governanceDecisions": [
+    {"name":"valid-governed-penalty","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"sanctioned-account-does-not-sign","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["GOV_A","GOV_B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"missing-governance-threshold","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"duplicate-governance-signer","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","A"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"revoked-governance-credential","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","REVOKED"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"unknown-governance-credential","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","UNKNOWN"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"wrong-covered-account","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"WRONG","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"missing-covered-account","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"MISSING","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"extra-covered-account","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXTRA","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"modified-penalty-amount","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":false,"expected":false},
+    {"name":"modified-entries","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":false,"expected":false},
+    {"name":"wrong-resolution-basis","purpose":"PENALTY","basis":"FINAL_DEFAULT_DECISION","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"non-final-finding","purpose":"PENALTY","basis":"FINAL_FINDING","final":false,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"governed-exchange","purpose":"EXCHANGE","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"adjudicated-reversal","purpose":"REVERSAL","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"adjudicated-reversal-wrong-basis","purpose":"REVERSAL","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"adjudicated-settlement","purpose":"SETTLEMENT","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"imposed-restitution-finding","purpose":"RESTITUTION","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"write-off-final-default","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"write-off-without-final-decision","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":false,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":false},
+    {"name":"loss-offset","purpose":"LOSS_OFFSET","basis":"COMMUNITY_GOVERNANCE_DECISION","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":true,"expected":true},
+    {"name":"cross-community-replay","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":false,"expected":false},
+    {"name":"transaction-replay","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"covered":"EXACT","signers":["A","B"],"threshold":2,"signatureMatches":false,"expected":false}
+  ],
+  "governedEconomicPolicy": [
+    {"name":"penalty-policy-allowed","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":true},
+    {"name":"penalty-policy-missing","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-policy-disabled","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":false,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-wrong-policy-schema","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-2","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-unknown-policy-field","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false,"extra":true},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-non-final-finding","purpose":"PENALTY","basis":"FINAL_FINDING","final":false,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-insufficient-governance","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":false,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"restitution-finding-allowed","purpose":"RESTITUTION","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":false,"restitutionFromFinalFindingAllowed":true,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"NONE","originalContainsSpecial":false,"writeOffFull":false,"expected":true},
+    {"name":"restitution-finding-disabled","purpose":"RESTITUTION","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":false,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"NONE","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"restitution-dispute-allowed","purpose":"RESTITUTION","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":false,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":true},"specialAccount":"NONE","originalContainsSpecial":false,"writeOffFull":false,"expected":true},
+    {"name":"restitution-dispute-disabled","purpose":"RESTITUTION","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":false,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"NONE","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"write-off-allowed-full","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-DEFAULT-POLICY-1","writeOffAllowed":true},"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":true,"expected":true},
+    {"name":"write-off-policy-missing","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":true,"expected":false},
+    {"name":"write-off-disabled","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-DEFAULT-POLICY-1","writeOffAllowed":false},"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":true,"expected":false},
+    {"name":"write-off-partial","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-DEFAULT-POLICY-1","writeOffAllowed":true},"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"loss-offset-allowed","purpose":"LOSS_OFFSET","basis":"COMMUNITY_GOVERNANCE_DECISION","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"BOTH","originalContainsSpecial":false,"writeOffFull":false,"expected":true},
+    {"name":"loss-offset-wrong-basis","purpose":"LOSS_OFFSET","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"BOTH","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-account-direct-exchange","purpose":"EXCHANGE","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":true,"restitutionFromFinalDisputeResolutionAllowed":true},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"loss-account-direct-exchange","purpose":"EXCHANGE","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-DEFAULT-POLICY-1","writeOffAllowed":true},"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"penalty-account-in-write-off","purpose":"WRITE_OFF","basis":"FINAL_DEFAULT_DECISION","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-DEFAULT-POLICY-1","writeOffAllowed":true},"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":true,"expected":false},
+    {"name":"loss-account-in-penalty","purpose":"PENALTY","basis":"FINAL_FINDING","final":true,"governanceValid":true,"policyEffective":true,"config":{"schema":"OSTRIS-SANCTION-POLICY-1","penaltyAllowed":true,"restitutionFromFinalFindingAllowed":false,"restitutionFromFinalDisputeResolutionAllowed":false},"specialAccount":"COMMUNITY_LOSS","originalContainsSpecial":false,"writeOffFull":false,"expected":false},
+    {"name":"special-account-inherited-full-reversal","purpose":"REVERSAL","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":true,"writeOffFull":false,"expected":true},
+    {"name":"reversal-introduces-special-account","purpose":"REVERSAL","basis":"FINAL_DISPUTE_RESOLUTION","final":true,"governanceValid":true,"policyEffective":false,"config":null,"specialAccount":"COMMUNITY_PENALTY","originalContainsSpecial":false,"writeOffFull":false,"expected":false}
+  ],
+  "restitutionReferences": [
+    {"name":"voluntary-account-authorization","path":"VOLUNTARY","accountAuthorization":true,"governanceAuthorization":false,"basisType":null,"basisId":null,"references":{},"policyAllowed":false,"signatureMatches":true,"scopeValid":true,"expected":true},
+    {"name":"voluntary-with-governance","path":"VOLUNTARY","accountAuthorization":true,"governanceAuthorization":true,"basisType":null,"basisId":null,"references":{},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"voluntary-with-finding-basis","path":"VOLUNTARY","accountAuthorization":true,"governanceAuthorization":false,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-finding-valid","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":true},
+    {"name":"imposed-finding-missing-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-finding-wrong-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-finding-with-dispute-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-dispute-valid","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{"disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":true},
+    {"name":"imposed-dispute-missing-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-dispute-wrong-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{"disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"imposed-dispute-with-finding-reference","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{"disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"both-typed-references","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":true,"scopeValid":true,"expected":false},
+    {"name":"basis-changed-after-signature","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{"disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":false,"scopeValid":true,"expected":false},
+    {"name":"typed-reference-changed-after-signature","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":false,"scopeValid":true,"expected":false},
+    {"name":"finding-signature-reused-for-dispute","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_DISPUTE_RESOLUTION","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2","references":{"disputeResolutionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"policyAllowed":true,"signatureMatches":false,"scopeValid":true,"expected":false},
+    {"name":"dispute-signature-reused-for-finding","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":false,"scopeValid":true,"expected":false},
+    {"name":"cross-community-resolution","path":"IMPOSED","accountAuthorization":false,"governanceAuthorization":true,"basisType":"FINAL_FINDING","basisId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1","references":{"finalFindingId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"policyAllowed":true,"signatureMatches":true,"scopeValid":false,"expected":false}
+  ],
+  "controllerQuorum": [
+    {"name":"same-controller-same-credential-twice","threshold":2,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-a","A","key-a",true]],"signatures":["cred-a","cred-a"],"expectedValid":false,"expectedContribution":1},
+    {"name":"same-controller-two-active-credentials","threshold":2,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-a1","A","key-a1",true],["cred-a2","A","key-a2",true]],"signatures":["cred-a1","cred-a2"],"expectedValid":false,"expectedContribution":1},
+    {"name":"same-controller-overlapping-rotation","threshold":2,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-old","A","key-old",true],["cred-new","A","key-new",true]],"signatures":["cred-old","cred-new"],"expectedValid":false,"expectedContribution":1},
+    {"name":"two-controllers-one-credential-each","threshold":2,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-a","A","key-a",true],["cred-b","B","key-b",true]],"signatures":["cred-a","cred-b"],"expectedValid":true,"expectedContribution":2},
+    {"name":"same-public-key-different-controllers","threshold":2,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-a","A","shared-key",true],["cred-b","B","shared-key",true]],"signatures":["cred-a","cred-b"],"expectedValid":false,"expectedContribution":0},
+    {"name":"unbound-credential","threshold":1,"policyControllers":["A"],"activeControllers":["A"],"bindings":[],"signatures":["cred-x"],"expectedValid":false,"expectedContribution":0},
+    {"name":"controller-outside-effective-policy","threshold":1,"policyControllers":["A"],"activeControllers":["A","B"],"bindings":[["cred-b","B","key-b",true]],"signatures":["cred-b"],"expectedValid":false,"expectedContribution":0},
+    {"name":"revoked-controller","threshold":1,"policyControllers":["A"],"activeControllers":[],"bindings":[["cred-a","A","key-a",true]],"signatures":["cred-a"],"expectedValid":false,"expectedContribution":0},
+    {"name":"revoked-credential","threshold":1,"policyControllers":["A"],"activeControllers":["A"],"bindings":[["cred-a","A","key-a",false]],"signatures":["cred-a"],"expectedValid":false,"expectedContribution":0},
+    {"name":"credential-rebound-controller-a-to-b","threshold":1,"policyControllers":["A","B"],"activeControllers":["A","B"],"bindings":[["cred-x","A","key-x",false],["cred-x","B","key-x",true]],"signatures":["cred-x"],"expectedValid":false,"expectedContribution":0}
+  ],
+  "transactionPurposes": [
+    "EXCHANGE",
+    "REVERSAL",
+    "SETTLEMENT",
+    "WRITE_OFF",
+    "RESTITUTION",
+    "PENALTY",
+    "LOSS_OFFSET"
+  ],
+  "accounting": [
+    { "name": "basic-two-party", "entries": ["20", "-20"], "valid": true },
+    { "name": "three-party", "entries": ["100", "-60", "-40"], "valid": true },
+    { "name": "non-zero-sum", "entries": ["100", "-90"], "valid": false }
+  ],
+  "reversals": [
+    {
+      "name": "full-reversal",
+      "original": ["100", "-60", "-40"],
+      "reversal": ["-100", "60", "40"],
+      "existingCommittedReversalCount": 0,
+      "originalKnown": true,
+      "originalPurpose": "EXCHANGE",
+      "valid": true
+    },
+    {
+      "name": "partial-reversal-rejected",
+      "original": ["100", "-100"],
+      "reversal": ["-20", "20"],
+      "existingCommittedReversalCount": 0,
+      "originalKnown": true,
+      "originalPurpose": "EXCHANGE",
+      "valid": false
+    },
+    {
+      "name": "second-reversal-rejected",
+      "original": ["100", "-100"],
+      "reversal": ["-100", "100"],
+      "existingCommittedReversalCount": 1,
+      "originalKnown": true,
+      "originalPurpose": "EXCHANGE",
+      "valid": false
+    },
+    {
+      "name": "unknown-original-rejected",
+      "original": ["100", "-100"],
+      "reversal": ["-100", "100"],
+      "existingCommittedReversalCount": 0,
+      "originalKnown": false,
+      "originalPurpose": "EXCHANGE",
+      "valid": false
+    }
+  ],
+  "credit": [
+    {
+      "name": "within-floor",
+      "balance": "-80",
+      "floor": "-100",
+      "delta": "-10",
+      "kind": "VOLUNTARY",
+      "accepted": true,
+      "projected": "-90",
+      "available": "10",
+      "enforcedLiability": "0"
+    },
+    {
+      "name": "exactly-at-floor",
+      "balance": "-80",
+      "floor": "-100",
+      "delta": "-20",
+      "kind": "VOLUNTARY",
+      "accepted": true,
+      "projected": "-100",
+      "available": "0",
+      "enforcedLiability": "0"
+    },
+    {
+      "name": "voluntary-below-floor",
+      "balance": "-80",
+      "floor": "-100",
+      "delta": "-21",
+      "kind": "VOLUNTARY",
+      "accepted": false,
+      "projected": "-101",
+      "available": "0",
+      "enforcedLiability": "1"
+    },
+    {
+      "name": "final-penalty-below-floor",
+      "balance": "-80",
+      "floor": "-100",
+      "delta": "-50",
+      "kind": "FINAL_PENALTY",
+      "accepted": true,
+      "projected": "-130",
+      "available": "0",
+      "enforcedLiability": "30"
+    },
+    {
+      "name": "final-restitution-below-floor",
+      "balance": "-100",
+      "floor": "-100",
+      "delta": "-25",
+      "kind": "FINAL_RESTITUTION",
+      "accepted": true,
+      "projected": "-125",
+      "available": "0",
+      "enforcedLiability": "25"
+    },
+    {
+      "name": "improving-while-liable",
+      "balance": "-130",
+      "floor": "-100",
+      "delta": "20",
+      "kind": "VOLUNTARY",
+      "accepted": true,
+      "projected": "-110",
+      "available": "0",
+      "enforcedLiability": "10"
+    }
+  ],
+  "ordering": [
+    {
+      "name": "commit-before-revocation",
+      "signatureSequence": "10",
+      "commitSequence": "20",
+      "revocationSequence": "21",
+      "policyV2ActivationSequence": "25",
+      "expectedAuthorizationValid": true,
+      "expectedPolicy": "v1"
+    },
+    {
+      "name": "commit-after-revocation",
+      "signatureSequence": "10",
+      "commitSequence": "22",
+      "revocationSequence": "21",
+      "policyV2ActivationSequence": "25",
+      "expectedAuthorizationValid": false,
+      "expectedPolicy": "v1"
+    },
+    {
+      "name": "v2-active-before-commit",
+      "signatureSequence": "10",
+      "commitSequence": "30",
+      "revocationSequence": "40",
+      "policyV2ActivationSequence": "25",
+      "expectedAuthorizationValid": true,
+      "expectedPolicy": "v2"
+    },
+    {
+      "name": "v2-active-after-commit",
+      "signatureSequence": "10",
+      "commitSequence": "24",
+      "revocationSequence": "40",
+      "policyV2ActivationSequence": "25",
+      "expectedAuthorizationValid": true,
+      "expectedPolicy": "v1"
+    }
+  ],
+  "identityContinuity": [
+    {
+      "name": "same-provider-subject",
+      "subjectRefA": "pairwise-7f3a",
+      "subjectRefB": "pairwise-7f3a",
+      "manualStatus": null,
+      "expected": "CONFIRMED",
+      "adverseHistoryOutcome": "ALLOW"
+    },
+    {
+      "name": "different-provider-subject",
+      "subjectRefA": "pairwise-7f3a",
+      "subjectRefB": "pairwise-9b2c",
+      "manualStatus": null,
+      "expected": "NO_MATCH",
+      "adverseHistoryOutcome": "ALLOW"
+    },
+    {
+      "name": "manual-confirmed",
+      "subjectRefA": null,
+      "subjectRefB": null,
+      "manualStatus": "CONFIRMED",
+      "expected": "CONFIRMED",
+      "adverseHistoryOutcome": "ALLOW_WITH_FLAG"
+    },
+    {
+      "name": "manual-contested",
+      "subjectRefA": null,
+      "subjectRefB": null,
+      "manualStatus": "CONTESTED",
+      "expected": "CONTESTED",
+      "adverseHistoryOutcome": "REQUIRE_REVIEW"
+    }
+  ],
+  "findingFinality": [
+    {
+      "name": "issued-before-deadline",
+      "status": "ISSUED",
+      "appealDeadlineElapsed": false,
+      "appealDecision": null,
+      "expectedFinal": false
+    },
+    {
+      "name": "issued-deadline-elapsed",
+      "status": "ISSUED",
+      "appealDeadlineElapsed": true,
+      "appealDecision": null,
+      "expectedFinal": true
+    },
+    {
+      "name": "appeal-pending",
+      "status": "APPEALED",
+      "appealDeadlineElapsed": true,
+      "appealDecision": null,
+      "expectedFinal": false
+    },
+    {
+      "name": "appeal-upheld",
+      "status": "APPEALED",
+      "appealDeadlineElapsed": true,
+      "appealDecision": "UPHELD",
+      "expectedFinal": true
+    },
+    {
+      "name": "appeal-overturned",
+      "status": "APPEALED",
+      "appealDeadlineElapsed": true,
+      "appealDecision": "OVERTURNED",
+      "expectedFinal": false
+    }
+  ],
+  "risk": {
+    "subjectAccountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+    "reciprocalCounterpartyId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+    "prospectiveSequence": "20",
+    "windowSizeSequences": "10",
+    "creditFloor": "-100",
+    "projectedBalance": "-75",
+    "transactions": [
+      {
+        "sequence": "9",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "999"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+            "amount": "-999"
+          }
+        ]
+      },
+      {
+        "sequence": "10",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "100"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+            "amount": "-100"
+          }
+        ]
+      },
+      {
+        "sequence": "11",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "300"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+            "amount": "-300"
+          }
+        ]
+      },
+      {
+        "sequence": "12",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "100"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718298",
+            "amount": "-100"
+          }
+        ]
+      },
+      {
+        "sequence": "13",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "-50"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+            "amount": "50"
+          }
+        ]
+      },
+      {
+        "sequence": "14",
+        "purpose": "SETTLEMENT",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "20"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718297",
+            "amount": "-20"
+          }
+        ]
+      },
+      {
+        "sequence": "15",
+        "purpose": "EXCHANGE",
+        "entries": [
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718296",
+            "amount": "60"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718298",
+            "amount": "-30"
+          },
+          {
+            "accountId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718299",
+            "amount": "-30"
+          }
+        ]
+      }
+    ],
+    "expected": {
+      "FLOOR_UTILIZATION": "7500",
+      "COUNTERPARTY_CONCENTRATION": "8000",
+      "COUNTERPARTY_COUNT": "3",
+      "RECENT_VOLUME": "610",
+      "RECIPROCAL_EXPOSURE": "1250"
+    }
+  },
+  "outcomePrecedence": {
+    "orderedStrongestFirst": [
+      "BLOCK_NEW_EXPOSURE",
+      "REQUIRE_REVIEW",
+      "ALLOW_WITH_FLAG",
+      "ALLOW"
+    ],
+    "cases": [
+      { "inputs": ["ALLOW", "ALLOW_WITH_FLAG"], "expected": "ALLOW_WITH_FLAG" },
+      {
+        "inputs": ["REQUIRE_REVIEW", "ALLOW_WITH_FLAG"],
+        "expected": "REQUIRE_REVIEW"
+      },
+      {
+        "inputs": ["ALLOW", "BLOCK_NEW_EXPOSURE", "REQUIRE_REVIEW"],
+        "expected": "BLOCK_NEW_EXPOSURE"
+      }
+    ]
+  },
+  "expectedSuiteSha256": "c06a044828c466506611195299d2f49a8d6f5db97ce29922dcb7e435525473c9"
+}

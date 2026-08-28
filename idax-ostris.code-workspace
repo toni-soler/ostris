@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "idax-ostris-backend",
+      "path": "backend"
+    },
+    {
+      "name": "idax-ostris-frontend",
+      "path": "frontend"
+    },
+    {
+      "name": "idax-ostris-main",
+      "path": "deployment"
+    }
+  ],
+  "settings": {
+    "java.autobuild.enabled": false,
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+}

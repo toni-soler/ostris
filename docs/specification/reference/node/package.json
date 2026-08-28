@@ -1,0 +1,9 @@
+{
+  "name": "ostris-core-v0.1-vector-verifier",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "canonicalize": "2.1.0"
+  }
+}

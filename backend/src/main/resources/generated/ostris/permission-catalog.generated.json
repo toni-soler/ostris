@@ -1,0 +1,82 @@
+[
+  {
+    "code": "OSTRIS_READ",
+    "moduleKey": "ostris",
+    "resourceKey": "core",
+    "actionKey": "read",
+    "labelKey": "ostris.permissions.ostris_read",
+    "apiPath": "/api/ostris/**",
+    "description": "Ostris Read",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_TRANSACTION_CREATE",
+    "moduleKey": "ostris",
+    "resourceKey": "transaction",
+    "actionKey": "create",
+    "labelKey": "ostris.permissions.ostris_transaction_create",
+    "apiPath": "/api/ostris/transactions",
+    "description": "Ostris Transaction Create",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_TRANSACTION_AUTHORIZE",
+    "moduleKey": "ostris",
+    "resourceKey": "transaction",
+    "actionKey": "authorize",
+    "labelKey": "ostris.permissions.ostris_transaction_authorize",
+    "apiPath": "/api/ostris/transactions/*/authorizations",
+    "description": "Ostris Transaction Authorize",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_TRANSACTION_COMMIT",
+    "moduleKey": "ostris",
+    "resourceKey": "transaction",
+    "actionKey": "commit",
+    "labelKey": "ostris.permissions.ostris_transaction_commit",
+    "apiPath": "/api/ostris/transactions",
+    "description": "Ostris Transaction Commit",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_RISK_REVIEW",
+    "moduleKey": "ostris",
+    "resourceKey": "risk",
+    "actionKey": "review",
+    "labelKey": "ostris.permissions.ostris_risk_review",
+    "apiPath": "/api/ostris/risk/**",
+    "description": "Ostris Risk Review",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_POLICY_ADMIN",
+    "moduleKey": "ostris",
+    "resourceKey": "policy",
+    "actionKey": "admin",
+    "labelKey": "ostris.permissions.ostris_policy_admin",
+    "apiPath": "/api/ostris/policies/**",
+    "description": "Ostris Policy Admin",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_IDENTITY_CONTINUITY_MANAGE",
+    "moduleKey": "ostris",
+    "resourceKey": "identity_continuity",
+    "actionKey": "manage",
+    "labelKey": "ostris.permissions.ostris_identity_continuity_manage",
+    "apiPath": "/api/ostris/identity/continuity-decisions",
+    "description": "Ostris Identity Continuity Manage",
+    "sourceType": "OSTRIS"
+  },
+  {
+    "code": "OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE",
+    "moduleKey": "ostris",
+    "resourceKey": "identity_continuity",
+    "actionKey": "read_private",
+    "labelKey": "ostris.permissions.ostris_identity_continuity_read_private",
+    "apiPath": "/api/ostris/identity/**",
+    "description": "Ostris Identity Continuity Read Private",
+    "sourceType": "OSTRIS"
+  }
+]

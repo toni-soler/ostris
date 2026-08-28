@@ -1,0 +1,9 @@
+{
+  "files": {
+    "idax-ostris-backend/src/main/resources/generated/ostris/permission-catalog.generated.json": "42e47db5c860df5c0c8d1713a7ac1db40d5109a47d9065c1258a8c761d58a884",
+    "idax-ostris-frontend/src/generated/ostris/crudCatalog.generated.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "idax-ostris-frontend/src/generated/ostris/manifest.generated.json": "4a3e9d173bc2801845dabeae513330a98f94b6d287171c7e119c2e72f5e22655"
+  },
+  "generatorVersion": 1,
+  "metadata": "scripts/gen-idax-ostris/table-config.yml"
+}

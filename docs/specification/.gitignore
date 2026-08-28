@@ -1,0 +1,9 @@
+# Documentation repository: ignore editor/OS artifacts only.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.venv/
+node_modules/
+__pycache__/
+*.pyc

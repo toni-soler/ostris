@@ -1,0 +1,87 @@
+{
+  "suite": "OSTRIS-PROTOCOL-EVENT-PROOF-V1",
+  "profile": "EXTERNAL:OSTRIS-PROTOCOL-EVENT-PROOF-V1",
+  "domain": "OSTRIS:PROTOCOL:EVENT:PROOF:V1",
+  "externalReferenceDomain": "OSTRIS:LEDGER:EXTERNAL-REF:V1",
+  "sourceEvent": {
+    "communityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+    "unitId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718294",
+    "transactionId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+    "protocolDigest": "8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5",
+    "communitySequence": "42",
+    "commitState": "COMMITTED"
+  },
+  "valid": [
+    {
+      "name": "committed-event-sequence-42",
+      "payload": {
+        "ostrisCoreVersion": "0.1",
+        "wireFormat": "OSTRIS-CORE-JCS-1",
+        "communityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+        "unitId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718294",
+        "transactionId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+        "transactionDigest": "8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5",
+        "communitySequence": "42",
+        "commitState": "COMMITTED"
+      },
+      "expectedCanonical": "{\"commitState\":\"COMMITTED\",\"communityId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293\",\"communitySequence\":\"42\",\"ostrisCoreVersion\":\"0.1\",\"transactionDigest\":\"8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5\",\"transactionId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718295\",\"unitId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718294\",\"wireFormat\":\"OSTRIS-CORE-JCS-1\"}",
+      "expectedProofDigest": "b7455c37aa0989ef9cb49fedafacd9e878a0a5384248acbba34cc4c7126a024f"
+    },
+    {
+      "name": "same-intent-different-sequence",
+      "payload": {
+        "ostrisCoreVersion": "0.1",
+        "wireFormat": "OSTRIS-CORE-JCS-1",
+        "communityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+        "unitId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718294",
+        "transactionId": "018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+        "transactionDigest": "8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5",
+        "communitySequence": "43",
+        "commitState": "COMMITTED"
+      },
+      "expectedCanonical": "{\"commitState\":\"COMMITTED\",\"communityId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293\",\"communitySequence\":\"43\",\"ostrisCoreVersion\":\"0.1\",\"transactionDigest\":\"8bafeb24c4b300ab5139bf1a1190c1d45bc5f295342b7ffd3b46c0485eae93a5\",\"transactionId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718295\",\"unitId\":\"018f6f9a-7b1c-7a2b-8c3d-4e5f60718294\",\"wireFormat\":\"OSTRIS-CORE-JCS-1\"}",
+      "expectedProofDigest": "ddbc4d4731a8737682df18de65ba12d9b6cc732d44548325288c074a8828a358"
+    }
+  ],
+  "invalid": [
+    {"name":"not-committed","mutation":{"commitState":"PROPOSED"},"reason":"COMMIT_STATE"},
+    {"name":"missing-community-sequence","remove":"communitySequence","reason":"MISSING_FIELD"},
+    {"name":"wrong-transaction-digest","mutation":{"transactionDigest":"0000000000000000000000000000000000000000000000000000000000000000"},"reason":"SOURCE_MISMATCH"},
+    {"name":"uppercase-transaction-digest","mutation":{"transactionDigest":"8BAFEB24C4B300AB5139BF1A1190C1D45BC5F295342B7FFD3B46C0485EAE93A5"},"reason":"DIGEST_ENCODING"},
+    {"name":"unknown-field","mutation":{"unexpected":"forbidden"},"reason":"UNKNOWN_FIELD"},
+    {"name":"wrong-community-id","mutation":{"communityId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1"},"reason":"SOURCE_MISMATCH"},
+    {"name":"wrong-unit-id","mutation":{"unitId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a2"},"reason":"SOURCE_MISMATCH"},
+    {"name":"wrong-transaction-id","mutation":{"transactionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a3"},"reason":"SOURCE_MISMATCH"}
+  ],
+  "replay": {
+    "name": "same-intent-different-community",
+    "otherCommunityId": "018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1",
+    "expectedDifferentProof": true
+  },
+  "mutations": [
+    {"name":"community-sequence-mutated","field":"communitySequence","value":"43","expectedDigestMismatch":true},
+    {"name":"transaction-digest-mutated","field":"transactionDigest","value":"0000000000000000000000000000000000000000000000000000000000000000","expectedDigestMismatch":true}
+  ],
+  "domainSeparation": {"unseparatedJcsDigestMustDiffer": true},
+  "externalReferences": [
+    {
+      "name":"same-source-stable",
+      "communityId":"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+      "transactionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+      "expectedExternalReference":"ostris:v1:deba0e1ffd3480f176117228a11c0231d7d3aa3bdc20fbbaa36125e3e2c6ee6f"
+    },
+    {
+      "name":"different-transaction",
+      "communityId":"018f6f9a-7b1c-7a2b-8c3d-4e5f60718293",
+      "transactionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a3",
+      "expectedExternalReference":"ostris:v1:b58b1694fa984f2246e8e2e14780770a118376c2783a6c3697c773e681265050"
+    },
+    {
+      "name":"different-community",
+      "communityId":"018f6f9a-7b1c-7a2b-8c3d-4e5f607182a1",
+      "transactionId":"018f6f9a-7b1c-7a2b-8c3d-4e5f60718295",
+      "expectedExternalReference":"ostris:v1:e3b7547fa80916978803c9793ea315436d2259b8ef45c9f7eb7e1bb04e1e64a7"
+    }
+  ],
+  "expectedSuiteSha256": "c06a044828c466506611195299d2f49a8d6f5db97ce29922dcb7e435525473c9"
+}

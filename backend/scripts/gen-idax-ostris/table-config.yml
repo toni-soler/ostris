@@ -1,0 +1,11 @@
+schemaVersion: 1
+permissions:
+  - {code: OSTRIS_READ, resource: core, action: read, apiPath: /api/ostris/**}
+  - {code: OSTRIS_TRANSACTION_CREATE, resource: transaction, action: create, apiPath: /api/ostris/transactions}
+  - {code: OSTRIS_TRANSACTION_AUTHORIZE, resource: transaction, action: authorize, apiPath: /api/ostris/transactions/*/authorizations}
+  - {code: OSTRIS_TRANSACTION_COMMIT, resource: transaction, action: commit, apiPath: /api/ostris/transactions}
+  - {code: OSTRIS_RISK_REVIEW, resource: risk, action: review, apiPath: /api/ostris/risk/**}
+  - {code: OSTRIS_POLICY_ADMIN, resource: policy, action: admin, apiPath: /api/ostris/policies/**}
+  - {code: OSTRIS_IDENTITY_CONTINUITY_MANAGE, resource: identity_continuity, action: manage, apiPath: /api/ostris/identity/continuity-decisions}
+  - {code: OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE, resource: identity_continuity, action: read_private, apiPath: /api/ostris/identity/**}
+entities: {}
