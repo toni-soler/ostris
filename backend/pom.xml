@@ -5,6 +5,7 @@
   <groupId>org.ostris</groupId><artifactId>idax-ostris-backend</artifactId><version>0.1.0</version>
   <name>osTRIS Core Reference Implementation</name>
   <properties><java.version>21</java.version><idax.version>0.1.0</idax.version></properties>
+  <repositories><repository><id>idax-public</id><url>https://toni-soler.github.io/idax-core-runtime/maven2</url></repository></repositories>
   <dependencies>
     <dependency><groupId>es.idynamicsax.idax</groupId><artifactId>idax-core</artifactId><version>${idax.version}</version></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
