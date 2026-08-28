@@ -1,0 +1,57 @@
+name: ostris
+
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_DB: ${OSTRIS_DB_NAME:-idax}
+      POSTGRES_USER: ${OSTRIS_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${OSTRIS_DB_PASSWORD:?set OSTRIS_DB_PASSWORD in .env}
+    volumes:
+      - ostris-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  core-migrations:
+    build:
+      context: https://github.com/toni-soler/idax-core-runtime.git#v0.1.1
+    command:
+      - -url=jdbc:postgresql://postgres:5432/${OSTRIS_DB_NAME:-idax}
+      - -user=${OSTRIS_DB_USER:-postgres}
+      - -password=${OSTRIS_DB_PASSWORD:?set OSTRIS_DB_PASSWORD in .env}
+      - -schemas=idax_core
+      - -table=flyway_schema_history_idax_core
+      - migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build: ../backend
+    ports:
+      - "${OSTRIS_BACKEND_PORT:-8095}:8095"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${OSTRIS_DB_NAME:-idax}
+      SPRING_DATASOURCE_USERNAME: ${OSTRIS_DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${OSTRIS_DB_PASSWORD:?set OSTRIS_DB_PASSWORD in .env}
+      OSTRIS_BACKEND_PORT: 8095
+      IDAX_AUTH_MODE: ${IDAX_AUTH_MODE:-LOCAL}
+      IDAX_AUTH_TOKEN_VALIDATOR: ${IDAX_AUTH_TOKEN_VALIDATOR:-local}
+      IDAX_AUTH_LOCAL_PUBLIC_KEY_LOCATION: file:/run/keys/idax-public.pem
+      OSTRIS_LEDGER_ENABLED: ${OSTRIS_LEDGER_ENABLED:-false}
+    volumes:
+      - ./keys/dev-public.pem:/run/keys/idax-public.pem:ro
+    depends_on:
+      core-migrations:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8095/actuator/health/readiness | grep -q UP"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  ostris-postgres:
