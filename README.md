@@ -12,6 +12,9 @@ with history independent from the private development repositories.
 - `docs/specification/`: normative osTRIS specification, schemas and vectors.
 - root architecture and compliance documents: bounded implementation evidence.
 
+For deployment, updates and routine operations, see
+[`docs/QUICKSTART.md`](docs/QUICKSTART.md).
+
 The current compliance statement does not claim production readiness, formal
 verification or an external security audit.
 
