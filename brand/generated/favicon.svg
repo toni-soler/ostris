@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">osTRIS micro emblem</title>
+  <g fill="none" stroke="#9CB6B1" stroke-width="2.5" stroke-linecap="round">
+    <path d="M32 7 55 25 46 55 18 55 9 25Z" />
+    <path d="M32 7 46 55M9 25 55 25M18 55 55 25" />
+  </g>
+  <g fill="#D59B3D" stroke="#173F3B" stroke-width="1.5">
+    <circle cx="32" cy="7" r="4.5" />
+    <circle cx="55" cy="25" r="4.5" />
+    <circle cx="46" cy="55" r="4.5" />
+    <circle cx="18" cy="55" r="4.5" />
+    <circle cx="9" cy="25" r="4.5" />
+  </g>
+  <circle cx="32" cy="32" r="6" fill="#173F3B" />
+</svg>

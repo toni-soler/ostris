@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">osTRIS community network emblem</title>
+  <g fill="none" stroke="#9CB6B1" stroke-width="10" stroke-linecap="round">
+    <path d="M256 72 430 210 364 412 148 412 82 210Z" />
+    <path d="M256 72 364 412 82 210 430 210 148 412Z" />
+  </g>
+  <g fill="#D59B3D" stroke="#173F3B" stroke-width="9">
+    <circle cx="256" cy="72" r="36" />
+    <circle cx="430" cy="210" r="36" />
+    <circle cx="364" cy="412" r="36" />
+    <circle cx="148" cy="412" r="36" />
+    <circle cx="82" cy="210" r="36" />
+  </g>
+  <circle cx="256" cy="256" r="48" fill="#173F3B" />
+</svg>

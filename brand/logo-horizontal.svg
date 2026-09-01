@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="260" viewBox="0 0 1080 260" role="img" aria-labelledby="title">
+  <title id="title">osTRIS</title>
+  <g transform="translate(20 20) scale(.43)">
+    <g fill="none" stroke="#9CB6B1" stroke-width="10" stroke-linecap="round">
+      <path d="M256 72 430 210 364 412 148 412 82 210Z" />
+      <path d="M256 72 364 412 82 210 430 210 148 412Z" />
+    </g>
+    <g fill="#D59B3D" stroke="#173F3B" stroke-width="9">
+      <circle cx="256" cy="72" r="36" />
+      <circle cx="430" cy="210" r="36" />
+      <circle cx="364" cy="412" r="36" />
+      <circle cx="148" cy="412" r="36" />
+      <circle cx="82" cy="210" r="36" />
+    </g>
+    <circle cx="256" cy="256" r="48" fill="#173F3B" />
+  </g>
+  <g transform="translate(300 42)">
+    <g fill="none" stroke="#173F3B" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="65" cy="105" rx="42" ry="42" />
+      <path d="M176 72c-14-13-52-11-52 10 0 27 61 11 61 42 0 25-45 29-68 8" />
+      <path d="M231 28h105M284 28v112" />
+      <path d="M377 140V28h53c57 0 57 70 0 70h-53m54 0 58 42" />
+      <path d="M529 28v112" />
+      <path d="M655 44c-21-24-79-21-79 12 0 41 90 18 90 62 0 35-69 42-100 10" />
+    </g>
+  </g>
+</svg>
