@@ -4,6 +4,12 @@ Spring Boot/PostgreSQL reference backend for osTRIS Core v0.1. Economic state is
 
 Security consumes the IDAX JWT/TenantContext contract and explicit osTRIS permissions. Tenant context comes from the validated JWT claim, not request headers or payloads. No direct-commit, balance-adjustment, journal-mutation or manual proof-outbox endpoint exists.
 
+The permission definitions are generated from the workspace `.idax-module.yml`
+and packaged at `generated/ostris/permission-catalog.generated.json`.
+`OstrisPermissionCatalogConfiguration` contributes the module descriptor and
+reuses Platform's generic catalog lifecycle. It does not parse or persist the
+catalog itself and never grants permissions to roles or users.
+
 ## Protocol event proof delivery
 
 Every successful economic commit writes the immutable journal transaction and one

@@ -25,6 +25,7 @@ idax:
       enabled: ${OSTRIS_PROOF_ENABLED:false}
     ledger:
       enabled: ${OSTRIS_LEDGER_ENABLED:false}
+      worker-enabled: ${OSTRIS_LEDGER_WORKER_ENABLED:true}
       ledger-base-url: ${OSTRIS_LEDGER_BASE_URL:http://localhost:8086}
       platform-base-url: ${OSTRIS_PLATFORM_BASE_URL:http://localhost:8080}
       client-id: ${OSTRIS_LEDGER_SERVICE_CLIENT_ID:ostris-ledger-delivery}

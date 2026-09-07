@@ -12,6 +12,49 @@ components:
   backend: backend
   frontend: frontend
   main: deployment
+permissions:
+  - code: OSTRIS_IDENTITY_CONTINUITY_MANAGE
+    resourceKey: ostris.identity-continuity
+    fieldKey: null
+    actionKey: manage
+    labelKey: ostris.permissions.identity-continuity.manage
+    apiPath: /api/ostris/identity/continuity-decisions
+    description: Invoke application operations that create identity continuity decisions.
+  - code: OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE
+    resourceKey: ostris.identity-continuity
+    fieldKey: null
+    actionKey: read-private
+    labelKey: ostris.permissions.identity-continuity.read-private
+    apiPath: /api/ostris/identity/communities/*/participants/*/continuity
+    description: Read private identity continuity decisions through the application API.
+  - code: OSTRIS_READ
+    resourceKey: ostris.participant
+    fieldKey: null
+    actionKey: read
+    labelKey: ostris.permissions.participant.read
+    apiPath: /api/ostris/participants/*/*
+    description: Read public participant information through the application API.
+  - code: OSTRIS_TRANSACTION_AUTHORIZE
+    resourceKey: ostris.transaction
+    fieldKey: null
+    actionKey: authorize
+    labelKey: ostris.permissions.transaction.authorize
+    apiPath: null
+    description: Submit account or governance authorization evidence through transaction application operations.
+  - code: OSTRIS_TRANSACTION_COMMIT
+    resourceKey: ostris.transaction
+    fieldKey: null
+    actionKey: commit
+    labelKey: ostris.permissions.transaction.commit
+    apiPath: /api/ostris/transactions/*/commit
+    description: Invoke the transaction commit application operation after all protocol rules are satisfied.
+  - code: OSTRIS_TRANSACTION_CREATE
+    resourceKey: ostris.transaction
+    fieldKey: null
+    actionKey: create
+    labelKey: ostris.permissions.transaction.create
+    apiPath: /api/ostris/transactions/proposals
+    description: Create transaction proposals through the application API.
 generator:
   directory: backend/scripts/gen-idax-ostris
   config: backend/scripts/gen-idax-ostris/table-config.yml

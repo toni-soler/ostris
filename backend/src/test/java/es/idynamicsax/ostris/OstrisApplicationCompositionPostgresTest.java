@@ -11,8 +11,10 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import es.idynamicsax.idax.security.TokenValidationResult;
 import es.idynamicsax.idax.security.TokenValidator;
 import es.idynamicsax.idax.security.mfa.MfaChallengeTokenService;
+import es.idynamicsax.idax.repository.IdaxPermissionRepository;
 import es.idynamicsax.idax.service.auth.ServiceTokenIssuer;
 import es.idynamicsax.idax.service.auth.ServiceTokenProvider;
+import es.idynamicsax.idax.service.permission.PermissionService;
 import es.idynamicsax.idax.tenant.AppUserResolver;
 import es.idynamicsax.idax.tenant.DbSessionContextService;
 import es.idynamicsax.idax.tenant.RlsTransactionAspect;
@@ -84,11 +86,12 @@ class OstrisApplicationCompositionPostgresTest {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "validate");
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "none");
         registry.add("idax.auth.mode", () -> "LOCAL");
         registry.add("idax.auth.token-validator", () -> "local");
         registry.add("idax.auth.local.public-key-location", () -> publicKeyFile.toUri().toString());
         registry.add("idax.ostris.ledger.enabled", () -> "true");
+        registry.add("idax.ostris.ledger.worker-enabled", () -> "false");
         registry.add("idax.ostris.proof.enabled", () -> "false");
         registry.add("idax.ostris.ledger.platform-base-url", () -> "http://127.0.0.1:1");
         registry.add("idax.ostris.ledger.ledger-base-url", () -> "http://127.0.0.1:1");
@@ -103,11 +106,14 @@ class OstrisApplicationCompositionPostgresTest {
         assertNotNull(context.getBean(DbSessionContextService.class));
         assertNotNull(context.getBean(RlsTransactionAspect.class));
         assertNotNull(context.getBean(ServiceTokenProvider.class));
+        assertTrue(context.getBean("permissionService") instanceof PermissionService);
+        assertNotNull(context.getBean(IdaxPermissionRepository.class));
 
         assertTrue(context.getBeansOfType(JwtEncoder.class).isEmpty());
         assertTrue(context.getBeansOfType(ServiceTokenIssuer.class).isEmpty());
         assertTrue(context.getBeansOfType(MfaChallengeTokenService.class).isEmpty());
         assertFalse(hasBeanClassNameContaining("LocalAuthService"));
+        assertFalse(hasBeanClassNameContaining("RolePermissionService"));
         assertFalse(hasBeanNameContaining("login"));
     }
 

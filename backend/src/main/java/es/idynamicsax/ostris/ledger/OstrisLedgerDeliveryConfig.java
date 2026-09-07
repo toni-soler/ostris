@@ -7,6 +7,8 @@ import java.time.Clock;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
@@ -20,19 +22,22 @@ public class OstrisLedgerDeliveryConfig {
 
     @Bean
     ServiceTokenProvider ostrisServiceTokenProvider(OstrisLedgerDeliveryProperties properties) {
-        RestClient client = restClient(properties.platformBaseUrl(), properties);
+        RestClient client = restClientBuilder(properties.platformBaseUrl(), properties)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .build();
         return new HttpServiceTokenProvider(client, properties.clientId(), properties.clientSecret(), properties.tokenSafetyWindow());
     }
 
     @Bean
     LedgerProofClient ledgerProofClient(OstrisLedgerDeliveryProperties properties) {
-        return new HttpLedgerProofClient(restClient(properties.ledgerBaseUrl(), properties));
+        return new HttpLedgerProofClient(restClientBuilder(properties.ledgerBaseUrl(), properties).build());
     }
 
-    private RestClient restClient(String baseUrl, OstrisLedgerDeliveryProperties properties) {
+    private RestClient.Builder restClientBuilder(String baseUrl, OstrisLedgerDeliveryProperties properties) {
         HttpClient http = HttpClient.newBuilder().connectTimeout(properties.connectTimeout()).build();
         JdkClientHttpRequestFactory requests = new JdkClientHttpRequestFactory(http);
         requests.setReadTimeout(properties.readTimeout());
-        return RestClient.builder().baseUrl(baseUrl).requestFactory(requests).build();
+        return RestClient.builder().baseUrl(baseUrl).requestFactory(requests);
     }
 }
