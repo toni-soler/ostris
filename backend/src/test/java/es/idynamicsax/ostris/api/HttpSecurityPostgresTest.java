@@ -86,7 +86,6 @@ class HttpSecurityPostgresTest {
         registry.add("idax.auth.token-validator", () -> "local");
         registry.add("idax.auth.local.public-key-location", () -> PUBLIC_KEY_FILE.toUri().toString());
         registry.add("idax.ostris.ledger.enabled", () -> "true");
-        registry.add("idax.ostris.ledger.worker-enabled", () -> "false");
         registry.add("idax.ostris.proof.enabled", () -> "false");
         registry.add("idax.ostris.ledger.platform-base-url", () -> "http://127.0.0.1:1");
         registry.add("idax.ostris.ledger.ledger-base-url", () -> "http://127.0.0.1:1");
@@ -97,6 +96,17 @@ class HttpSecurityPostgresTest {
         if (initialized) return;
         jdbc.update("alter table idax_core.tenant add column if not exists code varchar(32)");
         jdbc.execute("create table if not exists idax_core.app_user(user_id uuid primary key default gen_random_uuid(),external_subject varchar(255) unique,email varchar(255),display_name varchar(255),is_superuser boolean default false,updated_at timestamptz default now())");
+        jdbc.execute("""
+                create or replace function idax_core.identity_ensure_external_user(p_external_subject text)
+                returns table(user_id uuid, is_superuser boolean)
+                language sql as $$
+                    insert into idax_core.app_user(external_subject, is_superuser)
+                    values (p_external_subject, false)
+                    on conflict (external_subject) do nothing;
+                    select u.user_id, u.is_superuser from idax_core.app_user u
+                    where u.external_subject = p_external_subject
+                $$
+                """);
         jdbc.execute("create or replace function idax_core.set_tenant(uuid) returns void language sql as 'select set_config(''app.tenant_id'', $1::text, true)'");
         jdbc.execute("grant usage on schema idax_core to idax_app,idax_admin");
         jdbc.execute("grant execute on function idax_core.set_tenant(uuid) to idax_app,idax_admin");

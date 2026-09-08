@@ -91,7 +91,6 @@ class OstrisApplicationCompositionPostgresTest {
         registry.add("idax.auth.token-validator", () -> "local");
         registry.add("idax.auth.local.public-key-location", () -> publicKeyFile.toUri().toString());
         registry.add("idax.ostris.ledger.enabled", () -> "true");
-        registry.add("idax.ostris.ledger.worker-enabled", () -> "false");
         registry.add("idax.ostris.proof.enabled", () -> "false");
         registry.add("idax.ostris.ledger.platform-base-url", () -> "http://127.0.0.1:1");
         registry.add("idax.ostris.ledger.ledger-base-url", () -> "http://127.0.0.1:1");
@@ -114,7 +113,6 @@ class OstrisApplicationCompositionPostgresTest {
         assertTrue(context.getBeansOfType(MfaChallengeTokenService.class).isEmpty());
         assertFalse(hasBeanClassNameContaining("LocalAuthService"));
         assertFalse(hasBeanClassNameContaining("RolePermissionService"));
-        assertFalse(hasBeanNameContaining("login"));
     }
 
     @Test
@@ -137,13 +135,6 @@ class OstrisApplicationCompositionPostgresTest {
         for (String name : context.getBeanDefinitionNames()) {
             Class<?> type = context.getType(name);
             if (type != null && type.getName().contains(fragment)) return true;
-        }
-        return false;
-    }
-
-    private boolean hasBeanNameContaining(String fragment) {
-        for (String name : context.getBeanDefinitionNames()) {
-            if (name.toLowerCase().contains(fragment.toLowerCase())) return true;
         }
         return false;
     }

@@ -1,12 +1,12 @@
 package es.idynamicsax.ostris.ledger;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
-@ConditionalOnExpression("${idax.ostris.ledger.enabled:false} && ${idax.ostris.ledger.worker-enabled:true}")
+@ConditionalOnProperty(prefix = "idax.ostris.ledger", name = "enabled", havingValue = "true")
 public final class ProtocolEventProofDeliveryWorker {
     private final ProtocolEventProofDeliveryService delivery;
     private final OstrisLedgerDeliveryProperties properties;
