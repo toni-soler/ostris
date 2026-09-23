@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0] - 2026-09-23
+
+- Require IDAX Core Runtime 0.4.0.
+- Preserve the normative protocol, proof delivery and frontend extension
+  behavior of 0.3.
+- Confirm that generated metadata is bundled at build time and does not require
+  a separate runtime metadata-fetch cache.
+
 ## [0.3.0] - 2026-09-09
 
 - Require IDAX Core Runtime 0.3.0.
