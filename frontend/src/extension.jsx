@@ -1,10 +1,15 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
 import es from "./locales/es.json";
 import en from "./locales/en.json";
 
+// IDAX Shell renders this extension's registered component with ITS OWN React reconciler
+// (ModuleHost.jsx: `return <Component />`). A separate, esbuild-bundled copy of `react` here
+// would have its own module-local dispatcher, which is never active outside a render pass by
+// its own reconciler - Shell's render pass would call this component's hooks against a null
+// dispatcher ("Invalid hook call" / "Cannot read properties of null (reading 'useState')"),
+// leaving the whole app blank. Use Shell's own shared React instance instead, exactly like the
+// Ledger extension does - never `import React from "react"` in a Shell module extension.
 const sdk = window.__IDAX_MODULE_SDK__;
-const { router, i18n, fetchWithAuth } = sdk;
+const { React, router, i18n, fetchWithAuth } = sdk;
 const { useLocation, useNavigate } = router;
 const api = async (path, options = {}) => { const response = await fetchWithAuth(`/api/ostris${path}`, { headers: { "Content-Type": "application/json", ...(options.headers || {}) }, ...options }); const body = await response.json().catch(() => ({})); if (!response.ok) throw new Error(body.message || `HTTP ${response.status}`); return body; };
 
