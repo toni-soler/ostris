@@ -143,7 +143,7 @@ class HttpSecurityPostgresTest {
     @Test
     void missingPermissionTenantIsolationAndNoTenantFailClosed() {
         String humanA = token(KEYS, TENANT_A, false, Instant.now().plusSeconds(300));
-        assertEquals(403, http.exchange(url("/api/ostris/transactions/018f6f9a-7b1c-7a2b-8c3d-4e5f60719221/commit"), HttpMethod.POST, new HttpEntity<>(headers(humanA)), String.class).getStatusCode().value());
+        assertEquals(403, http.exchange(url("/api/ostris/transactions/018f6f9a-7b1c-7a2b-8c3d-4e5f60719221/commit"), HttpMethod.POST, new HttpEntity<>(headers(humanA, null)), String.class).getStatusCode().value());
         assertEquals(403, get(participantPath(COMMUNITY_B, PARTICIPANT_B), token(KEYS, TENANT_B, false, Instant.now().plusSeconds(300))).getStatusCode().value());
         assertEquals(401, get(participantPath(COMMUNITY_A, PARTICIPANT_A), token(KEYS, null, false, Instant.now().plusSeconds(300))).getStatusCode().value());
     }
@@ -153,9 +153,22 @@ class HttpSecurityPostgresTest {
         assertEquals(200, get(participantPath(COMMUNITY_A, PARTICIPANT_A), token(KEYS, TENANT_A, true, Instant.now().plusSeconds(300))).getStatusCode().value());
     }
 
+    @Test
+    void superuserWithNoJwtTenantResolvesFromXTenantHeader() {
+        String bootstrapToken = token(KEYS, null, true, Instant.now().plusSeconds(300));
+        assertEquals(200, get(participantPath(COMMUNITY_A, PARTICIPANT_A), bootstrapToken, TENANT_A.toString()).getStatusCode().value());
+    }
+
+    @Test
+    void nonSuperuserCannotOverrideTenantViaXTenantHeader() {
+        String humanA = token(KEYS, TENANT_A, false, Instant.now().plusSeconds(300));
+        assertEquals(403, get(participantPath(COMMUNITY_B, PARTICIPANT_B), humanA, TENANT_B.toString()).getStatusCode().value());
+    }
+
     private String participantPath(UUID community, UUID participant) { return "/api/ostris/participants/" + community + "/" + participant; }
-    private ResponseEntity<String> get(String path, String token) { return http.exchange(url(path), HttpMethod.GET, new HttpEntity<>(headers(token)), String.class); }
-    private HttpHeaders headers(String token) { HttpHeaders headers = new HttpHeaders(); headers.setBearerAuth(token); headers.setContentType(MediaType.APPLICATION_JSON); return headers; }
+    private ResponseEntity<String> get(String path, String token) { return http.exchange(url(path), HttpMethod.GET, new HttpEntity<>(headers(token, null)), String.class); }
+    private ResponseEntity<String> get(String path, String token, String tenantHeader) { return http.exchange(url(path), HttpMethod.GET, new HttpEntity<>(headers(token, tenantHeader)), String.class); }
+    private HttpHeaders headers(String token, String tenantHeader) { HttpHeaders headers = new HttpHeaders(); headers.setBearerAuth(token); headers.setContentType(MediaType.APPLICATION_JSON); if (tenantHeader != null) headers.set("X-Tenant", tenantHeader); return headers; }
     private String url(String path) { return "http://localhost:" + port + path; }
 
     static String token(KeyPair pair, UUID tenant, boolean superuser, Instant expiry) {
