@@ -17,7 +17,7 @@ public class ProtocolProofOutboxReplayService {
         this.outbox = outbox;
     }
 
-    public void replay(CurrentUser operator, UUID outboxId, String reason) {
+    public void replay(CurrentUser operator, UUID tenantId, UUID outboxId, String reason) {
         // A service principal (e.g. the ledger delivery worker itself) authenticating with its
         // own client credentials is not "an explicit operator action" - this is a human-reviewed
         // decision, so it requires a real user identity, never a machine one, regardless of
@@ -25,6 +25,13 @@ public class ProtocolProofOutboxReplayService {
         if (operator == null || operator.isService()) {
             throw new ProtocolProofOutboxStore.ReplayNotAllowedException("OPERATOR_IDENTITY_REQUIRED");
         }
-        outbox.replayFailedProof(outboxId, operator.getTenantId(), operator.getUsername(), reason);
+        // tenantId is the controller's resolved TenantContext.get().getTenantId(), not
+        // operator.getTenantId(): OstrisJwtAuthFilter only ever puts the token's own (often null,
+        // for a superuser) tenant claim on the CurrentUser principal itself - the X-Tenant-resolved
+        // tenant a superuser actually asked to act on only ever reaches TenantContext, exactly the
+        // same split every other ostris controller (TransactionController,
+        // IdentityContinuityController) already works around by reading TenantContext, never
+        // CurrentUser, for "which tenant is this request for".
+        outbox.replayFailedProof(outboxId, tenantId, operator.getUsername(), reason);
     }
 }
