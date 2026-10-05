@@ -1,6 +1,7 @@
 package es.idynamicsax.ostris.api;
 
 import es.idynamicsax.idax.security.CurrentUser;
+import es.idynamicsax.idax.tenant.TenantContext;
 import es.idynamicsax.ostris.ledger.ProtocolProofOutboxReplayService;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class LedgerOutboxAdminController {
     @PreAuthorize("@permissionService.hasPermission('OSTRIS_LEDGER_OUTBOX_REPLAY')")
     public ResponseEntity<Void> replay(@PathVariable UUID id, @RequestBody(required = false) ReplayRequest request,
             @AuthenticationPrincipal CurrentUser operator) {
-        replay.replay(operator, id, request == null ? null : request.reason());
+        replay.replay(operator, TenantContext.get().getTenantId(), id, request == null ? null : request.reason());
         return ResponseEntity.noContent().build();
     }
 
