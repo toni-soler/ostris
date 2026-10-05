@@ -44,6 +44,7 @@ class OstrisPermissionCatalogPostgresTest {
     private static final List<String> CANONICAL_CODES = List.of(
             "OSTRIS_IDENTITY_CONTINUITY_MANAGE",
             "OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE",
+            "OSTRIS_LEDGER_OUTBOX_REPLAY",
             "OSTRIS_READ",
             "OSTRIS_TRANSACTION_AUTHORIZE",
             "OSTRIS_TRANSACTION_COMMIT",

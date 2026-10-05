@@ -20,6 +20,15 @@
       "resourceKey": "ostris.identity-continuity"
     },
     {
+      "actionKey": "replay",
+      "apiPath": "/api/ostris/admin/ledger-outbox/*/replay",
+      "code": "OSTRIS_LEDGER_OUTBOX_REPLAY",
+      "description": "Replay a terminal (FAILED_PERMANENT) ledger delivery after its root cause has been fixed, as a reviewed, explicit, human-operator action.",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.ledger-outbox.replay",
+      "resourceKey": "ostris.ledger-outbox"
+    },
+    {
       "actionKey": "read",
       "apiPath": "/api/ostris/participants/*/*",
       "code": "OSTRIS_READ",

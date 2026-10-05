@@ -96,6 +96,55 @@ public class ProtocolProofOutboxStore {
         }
     }
 
+    /**
+     * Explicit-operator replay of a terminal FAILED_PERMANENT delivery. Never flips a row
+     * straight to ANCHORED (that would erase history) - it writes an immutable record of the
+     * original failure (protocol_proof_outbox_replay_event, INSERTed, never UPDATEd/DELETEd),
+     * then requeues to PENDING so the row goes through the exact same claimNext()/deliver()
+     * pipeline as any other delivery. If the root cause is still present, that attempt fails
+     * again, correctly, with its own fresh classification - this call itself does nothing more
+     * than "try once more", and must be called again for a further attempt (no automatic loop
+     * reopens around a reviewed-only failure).
+     *
+     * tenant_id is matched inside the WHERE clause rather than checked afterward: a wrong tenant
+     * finds no row, the same NOT_FOUND outcome as a nonexistent id - deliberately uniform, same
+     * anti-enumeration reasoning as ServiceAuthenticationException. A row not currently
+     * FAILED_PERMANENT (already requeued by a concurrent replay, already resolved, or never
+     * failed permanently) is rejected as NOT_REPLAYABLE - this is what makes two rapid replay
+     * calls for the same id idempotent: the second finds the row already moved to PENDING.
+     *
+     * @throws ReplayNotAllowedException with code NOT_FOUND or NOT_REPLAYABLE
+     */
+    public void replayFailedProof(UUID outboxId, UUID tenantId, String operator, String reason) {
+        transactions.executeWithoutResult(status -> {
+            var rows = jdbc.query("""
+                    SELECT status, last_error, attempt_count FROM ostris.protocol_proof_outbox
+                    WHERE id=? AND tenant_id=? FOR UPDATE
+                    """, (rs, i) -> new Object[]{rs.getString("status"), rs.getString("last_error"), rs.getInt("attempt_count")},
+                    outboxId, tenantId);
+            if (rows.isEmpty()) throw new ReplayNotAllowedException("NOT_FOUND");
+            Object[] row = rows.get(0);
+            String previousStatus = (String) row[0];
+            if (!"FAILED_PERMANENT".equals(previousStatus)) throw new ReplayNotAllowedException("NOT_REPLAYABLE");
+            jdbc.update("""
+                    INSERT INTO ostris.protocol_proof_outbox_replay_event
+                        (id, outbox_id, tenant_id, replayed_by, reason, previous_status, previous_last_error, previous_attempt_count)
+                    VALUES (?,?,?,?,?,?,?,?)
+                    """, UUID.randomUUID(), outboxId, tenantId, operator, reason, previousStatus, row[1], row[2]);
+            int changed = jdbc.update("""
+                    UPDATE ostris.protocol_proof_outbox
+                    SET status='PENDING', claim_token=NULL, claimed_at=NULL, next_retry_at=NULL, last_error=NULL
+                    WHERE id=? AND tenant_id=? AND status='FAILED_PERMANENT'
+                    """, outboxId, tenantId);
+            if (changed != 1) throw new ReplayNotAllowedException("NOT_REPLAYABLE");
+        });
+    }
+
+    public static final class ReplayNotAllowedException extends RuntimeException {
+        public final String code;
+        public ReplayNotAllowedException(String code) { super(code); this.code = code; }
+    }
+
     public void disabledPending() {
         transactions.executeWithoutResult(status -> jdbc.update("""
                 UPDATE ostris.protocol_proof_outbox
