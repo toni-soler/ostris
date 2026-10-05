@@ -187,6 +187,124 @@ class ProtocolProofOutboxPostgresTest {
                 """, Integer.class));
     }
 
+    @Test
+    void replayRequeuesAFailedPermanentRowPreservesTheOriginalFailureAndDeliversNormally() throws Exception {
+        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+        Fixture fixture = fixture(context.getBean(ObjectMapper.class));
+        seed(jdbc, fixture);
+        ProtocolProofOutboxStore store = context.getBean(ProtocolProofOutboxStore.class);
+        var claim = store.claimNext().orElseThrow();
+        assertTrue(store.failed(claim, true, "LEDGER_HTTP_403"));
+        assertEquals("FAILED_PERMANENT", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+
+        store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", "shell fix deployed");
+
+        assertEquals("PENDING", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+        assertNull(jdbc.queryForObject(
+                "select last_error from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+        var events = jdbc.queryForList(
+                "select replayed_by,reason,previous_status,previous_last_error,previous_attempt_count "
+                        + "from ostris.protocol_proof_outbox_replay_event where outbox_id=?", claim.id());
+        assertEquals(1, events.size());
+        assertEquals("operator@stir.test", events.get(0).get("replayed_by"));
+        assertEquals("shell fix deployed", events.get(0).get("reason"));
+        assertEquals("FAILED_PERMANENT", events.get(0).get("previous_status"));
+        assertEquals("LEDGER_HTTP_403", events.get(0).get("previous_last_error"));
+        assertEquals(1, events.get(0).get("previous_attempt_count"));
+
+        var retried = store.claimNext().orElseThrow();
+        assertEquals(2, retried.attemptCount());
+        assertTrue(store.anchored(retried, UUID.randomUUID()));
+        assertEquals("ANCHORED", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+    }
+
+    @Test
+    void replayOfAnAlreadyAnchoredDeliveryIsRejectedAndNeverDuplicatesAnAnchor() throws Exception {
+        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+        Fixture fixture = fixture(context.getBean(ObjectMapper.class));
+        seed(jdbc, fixture);
+        ProtocolProofOutboxStore store = context.getBean(ProtocolProofOutboxStore.class);
+        var claim = store.claimNext().orElseThrow();
+        assertTrue(store.anchored(claim, UUID.randomUUID()));
+
+        var rejection = assertThrows(ProtocolProofOutboxStore.ReplayNotAllowedException.class,
+                () -> store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", null));
+        assertEquals("NOT_REPLAYABLE", rejection.code);
+        assertEquals("ANCHORED", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+        assertEquals(0, jdbc.queryForObject(
+                "select count(*) from ostris.protocol_proof_outbox_replay_event where outbox_id=?", Integer.class, claim.id()));
+    }
+
+    @Test
+    void replayWithTheWrongTenantIsRejectedAsNotFoundAndLeavesTheRowUntouched() throws Exception {
+        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+        Fixture fixture = fixture(context.getBean(ObjectMapper.class));
+        seed(jdbc, fixture);
+        ProtocolProofOutboxStore store = context.getBean(ProtocolProofOutboxStore.class);
+        var claim = store.claimNext().orElseThrow();
+        assertTrue(store.failed(claim, true, "LEDGER_HTTP_401"));
+
+        var rejection = assertThrows(ProtocolProofOutboxStore.ReplayNotAllowedException.class,
+                () -> store.replayFailedProof(claim.id(), UUID.randomUUID(), "operator@stir.test", "wrong tenant"));
+        assertEquals("NOT_FOUND", rejection.code);
+        assertEquals("FAILED_PERMANENT", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+        assertEquals(0, jdbc.queryForObject(
+                "select count(*) from ostris.protocol_proof_outbox_replay_event where outbox_id=?", Integer.class, claim.id()));
+    }
+
+    @Test
+    void replayWhileTheRootCauseRemainsFailsSafelyAndCanBeReplayedAgainWithBothAttemptsKeptInHistory() throws Exception {
+        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+        Fixture fixture = fixture(context.getBean(ObjectMapper.class));
+        seed(jdbc, fixture);
+        String journalBefore = jdbc.queryForObject("select canonical_json from ostris.journal_transaction where id=?",
+                String.class, fixture.journal().transactionId());
+        ProtocolProofOutboxStore store = context.getBean(ProtocolProofOutboxStore.class);
+        var claim = store.claimNext().orElseThrow();
+        assertTrue(store.failed(claim, true, "LEDGER_HTTP_403"));
+
+        store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", "first attempt - still broken");
+        var retried = store.claimNext().orElseThrow();
+        assertTrue(store.failed(retried, true, "LEDGER_HTTP_403"));
+        assertEquals("FAILED_PERMANENT", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+
+        store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", "second attempt - actually fixed");
+        var secondRetry = store.claimNext().orElseThrow();
+        assertTrue(store.anchored(secondRetry, UUID.randomUUID()));
+
+        assertEquals(2, jdbc.queryForObject(
+                "select count(*) from ostris.protocol_proof_outbox_replay_event where outbox_id=?", Integer.class, claim.id()),
+                "both replay attempts stay in history - the first is never overwritten by the second");
+        assertEquals(journalBefore, jdbc.queryForObject(
+                "select canonical_json from ostris.journal_transaction where id=?", String.class, fixture.journal().transactionId()),
+                "replay never touches the original committed journal transaction");
+    }
+
+    @Test
+    void repeatedReplayRequestIsIdempotentAndNeverStartsASecondDeliveryAttempt() throws Exception {
+        JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+        Fixture fixture = fixture(context.getBean(ObjectMapper.class));
+        seed(jdbc, fixture);
+        ProtocolProofOutboxStore store = context.getBean(ProtocolProofOutboxStore.class);
+        var claim = store.claimNext().orElseThrow();
+        assertTrue(store.failed(claim, true, "LEDGER_HTTP_403"));
+
+        store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", "fixed");
+        var rejection = assertThrows(ProtocolProofOutboxStore.ReplayNotAllowedException.class,
+                () -> store.replayFailedProof(claim.id(), claim.tenantId(), "operator@stir.test", "fixed"));
+        assertEquals("NOT_REPLAYABLE", rejection.code);
+        assertEquals("PENDING", jdbc.queryForObject(
+                "select status from ostris.protocol_proof_outbox where id=?", String.class, claim.id()));
+        assertEquals(1, jdbc.queryForObject(
+                "select count(*) from ostris.protocol_proof_outbox_replay_event where outbox_id=?", Integer.class, claim.id()));
+    }
+
     private void restart() {
         context = new SpringApplicationBuilder(TestApp.class).web(WebApplicationType.NONE).run(
                 "--spring.datasource.url=" + POSTGRES.getJdbcUrl(),
