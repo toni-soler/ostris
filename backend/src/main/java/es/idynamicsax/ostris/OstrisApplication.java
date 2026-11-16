@@ -6,6 +6,7 @@ import es.idynamicsax.idax.config.TransactionConfig;
 import es.idynamicsax.idax.security.DualTokenValidator;
 import es.idynamicsax.idax.security.KeycloakTokenValidator;
 import es.idynamicsax.idax.security.LocalTokenValidator;
+import es.idynamicsax.idax.security.approval.OperationApprovalVerifier;
 import es.idynamicsax.idax.tenant.AppUserResolver;
 import es.idynamicsax.idax.tenant.DbSessionContextService;
 import es.idynamicsax.idax.tenant.RlsTransactionAspect;
@@ -29,6 +30,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         ResourceServerJwtDecoderConfig.class,
         TokenValidatorConfig.class,
         LocalTokenValidator.class,
+        OperationApprovalVerifier.class,
         KeycloakTokenValidator.class,
         DualTokenValidator.class,
         TenantResolver.class,

@@ -13,6 +13,7 @@ import org.erdtman.jcs.JsonCanonicalizer;
 public final class OstrisWireCodec {
     public static final String AUTHORIZATION_DOMAIN = "OSTRIS:TX:AUTH:V1";
     public static final String GOVERNANCE_AUTHORIZATION_DOMAIN = "OSTRIS:TX:GOVAUTH:V1";
+    public static final String CANONICALIZATION_SCHEME = "OSTRIS-CORE-JCS-1";
     private final ObjectMapper mapper = JsonMapper.builder()
             .enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)

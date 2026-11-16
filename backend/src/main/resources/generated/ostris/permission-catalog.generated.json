@@ -3,6 +3,33 @@
   "permissions": [
     {
       "actionKey": "manage",
+      "apiPath": "/api/ostris/communities",
+      "code": "OSTRIS_COMMUNITY_MANAGE",
+      "description": "Create communities and units of account through the application API.",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.community.manage",
+      "resourceKey": "ostris.community"
+    },
+    {
+      "actionKey": "manage",
+      "apiPath": "/api/ostris/communities/*/credentials/**",
+      "code": "OSTRIS_CREDENTIAL_MANAGE",
+      "description": "Add or revoke a credential for an already-active controller through the application API (device lifecycle).",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.credential.manage",
+      "resourceKey": "ostris.credential"
+    },
+    {
+      "actionKey": "read",
+      "apiPath": "/api/ostris/communities/**",
+      "code": "OSTRIS_DISCOVERY_READ",
+      "description": "Read public community, unit, account balance and credential information through the application API.",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.discovery.read",
+      "resourceKey": "ostris.discovery"
+    },
+    {
+      "actionKey": "manage",
       "apiPath": "/api/ostris/identity/continuity-decisions",
       "code": "OSTRIS_IDENTITY_CONTINUITY_MANAGE",
       "description": "Invoke application operations that create identity continuity decisions.",
@@ -27,6 +54,15 @@
       "fieldKey": null,
       "labelKey": "ostris.permissions.ledger-outbox.replay",
       "resourceKey": "ostris.ledger-outbox"
+    },
+    {
+      "actionKey": "activate",
+      "apiPath": "/api/ostris/communities/*/participants/activate",
+      "code": "OSTRIS_PARTICIPANT_ACTIVATE",
+      "description": "Provision a participant, account, credential and 1-of-1 account control policy for the caller through the application API.",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.participant.activate",
+      "resourceKey": "ostris.participant"
     },
     {
       "actionKey": "read",
@@ -62,6 +98,15 @@
       "description": "Create transaction proposals through the application API.",
       "fieldKey": null,
       "labelKey": "ostris.permissions.transaction.create",
+      "resourceKey": "ostris.transaction"
+    },
+    {
+      "actionKey": "read",
+      "apiPath": "/api/ostris/transactions/*",
+      "code": "OSTRIS_TRANSACTION_READ",
+      "description": "Read transaction proposal/commit status, the canonical authorization payload to sign, and authorized-account progress.",
+      "fieldKey": null,
+      "labelKey": "ostris.permissions.transaction.read",
       "resourceKey": "ostris.transaction"
     }
   ],

@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.0] - 2026-11-16
+
+- Require IDAX Core Runtime 0.5.0.
+- Add the public application surface: discovery of communities, units,
+  accounts and credentials, participant activation, credential (device)
+  management and transaction status.
+- A controller now carries the user who activated it; adding or revoking a
+  credential is allowed only to that owner, independently of the credential
+  management permission and of superuser status. Controllers created before
+  this release have no recorded owner and cannot be managed through this
+  surface (migration V6).
+- Optionally require a per-operation approval (a fresh authenticator code for
+  exactly that change) to add or revoke a credential:
+  `ostris.security.credential-approval.required`, off by default (migration V7).
+- Only access tokens are accepted as bearer sessions (through Core 0.5.0).
+
 ## [0.4.0] - 2026-09-23
 
 - Require IDAX Core Runtime 0.4.0.
