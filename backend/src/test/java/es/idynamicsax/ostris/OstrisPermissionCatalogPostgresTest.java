@@ -42,13 +42,18 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class OstrisPermissionCatalogPostgresTest {
     private static final String CATALOG = "generated/ostris/permission-catalog.generated.json";
     private static final List<String> CANONICAL_CODES = List.of(
+            "OSTRIS_COMMUNITY_MANAGE",
+            "OSTRIS_CREDENTIAL_MANAGE",
+            "OSTRIS_DISCOVERY_READ",
             "OSTRIS_IDENTITY_CONTINUITY_MANAGE",
             "OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE",
             "OSTRIS_LEDGER_OUTBOX_REPLAY",
+            "OSTRIS_PARTICIPANT_ACTIVATE",
             "OSTRIS_READ",
             "OSTRIS_TRANSACTION_AUTHORIZE",
             "OSTRIS_TRANSACTION_COMMIT",
-            "OSTRIS_TRANSACTION_CREATE");
+            "OSTRIS_TRANSACTION_CREATE",
+            "OSTRIS_TRANSACTION_READ");
     private static final UUID TENANT_A = UUID.fromString("00000000-0000-0000-0000-00000000000a");
     private static final UUID TENANT_B = UUID.fromString("00000000-0000-0000-0000-00000000000b");
     private static final UUID USER = UUID.fromString("018f6f9a-7b1c-7a2b-8c3d-4e5f60719341");
@@ -143,9 +148,9 @@ class OstrisPermissionCatalogPostgresTest {
         var result = registrar.register("ostris", bytes);
         assertEquals(0, result.created());
         assertEquals(0, result.updated());
-        assertEquals(6, result.unchanged());
+        assertEquals(CANONICAL_CODES.size(), result.unchanged());
         assertEquals(0, result.stale());
-        assertEquals(6, jdbc.queryForObject(
+        assertEquals(CANONICAL_CODES.size(), jdbc.queryForObject(
                 "SELECT count(*) FROM idax_core.idax_permission WHERE module_key = 'ostris'", Integer.class));
         assertEquals(0, jdbc.queryForObject("""
                 SELECT count(*) FROM (

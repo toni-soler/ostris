@@ -13,6 +13,27 @@ components:
   frontend: frontend
   main: deployment
 permissions:
+  - code: OSTRIS_COMMUNITY_MANAGE
+    resourceKey: ostris.community
+    fieldKey: null
+    actionKey: manage
+    labelKey: ostris.permissions.community.manage
+    apiPath: /api/ostris/communities
+    description: Create communities and units of account through the application API.
+  - code: OSTRIS_CREDENTIAL_MANAGE
+    resourceKey: ostris.credential
+    fieldKey: null
+    actionKey: manage
+    labelKey: ostris.permissions.credential.manage
+    apiPath: /api/ostris/communities/*/credentials/**
+    description: Add or revoke a credential for an already-active controller through the application API (device lifecycle).
+  - code: OSTRIS_DISCOVERY_READ
+    resourceKey: ostris.discovery
+    fieldKey: null
+    actionKey: read
+    labelKey: ostris.permissions.discovery.read
+    apiPath: /api/ostris/communities/**
+    description: Read public community, unit, account balance and credential information through the application API.
   - code: OSTRIS_IDENTITY_CONTINUITY_MANAGE
     resourceKey: ostris.identity-continuity
     fieldKey: null
@@ -27,6 +48,20 @@ permissions:
     labelKey: ostris.permissions.identity-continuity.read-private
     apiPath: /api/ostris/identity/communities/*/participants/*/continuity
     description: Read private identity continuity decisions through the application API.
+  - code: OSTRIS_LEDGER_OUTBOX_REPLAY
+    resourceKey: ostris.ledger-outbox
+    fieldKey: null
+    actionKey: replay
+    labelKey: ostris.permissions.ledger-outbox.replay
+    apiPath: /api/ostris/admin/ledger-outbox/*/replay
+    description: Replay a terminal (FAILED_PERMANENT) ledger delivery after its root cause has been fixed, as a reviewed, explicit, human-operator action.
+  - code: OSTRIS_PARTICIPANT_ACTIVATE
+    resourceKey: ostris.participant
+    fieldKey: null
+    actionKey: activate
+    labelKey: ostris.permissions.participant.activate
+    apiPath: /api/ostris/communities/*/participants/activate
+    description: Provision a participant, account, credential and 1-of-1 account control policy for the caller through the application API.
   - code: OSTRIS_READ
     resourceKey: ostris.participant
     fieldKey: null
@@ -55,6 +90,13 @@ permissions:
     labelKey: ostris.permissions.transaction.create
     apiPath: /api/ostris/transactions/proposals
     description: Create transaction proposals through the application API.
+  - code: OSTRIS_TRANSACTION_READ
+    resourceKey: ostris.transaction
+    fieldKey: null
+    actionKey: read
+    labelKey: ostris.permissions.transaction.read
+    apiPath: /api/ostris/transactions/*
+    description: Read transaction proposal/commit status, the canonical authorization payload to sign, and authorized-account progress.
 generator:
   directory: backend/scripts/gen-idax-ostris
   config: backend/scripts/gen-idax-ostris/table-config.yml

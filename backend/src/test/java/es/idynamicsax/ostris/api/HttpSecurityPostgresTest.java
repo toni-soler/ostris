@@ -112,7 +112,7 @@ class HttpSecurityPostgresTest {
         jdbc.execute("grant execute on function idax_core.set_tenant(uuid) to idax_app,idax_admin");
         jdbc.execute("grant select,insert,update on idax_core.app_user to idax_admin");
         jdbc.execute("grant select on idax_core.tenant_user,idax_core.idax_user_role,idax_core.idax_role,idax_core.idax_role_permission,idax_core.idax_permission to idax_app");
-        jdbc.update("insert into idax_core.tenant(tenant_id,code) values(?,?),(?,?)", TENANT_A, "A", TENANT_B, "B");
+        jdbc.update("insert into idax_core.tenant(tenant_id,code) values(?,?),(?,?) on conflict (tenant_id) do nothing", TENANT_A, "A", TENANT_B, "B");
         jdbc.update("insert into idax_core.app_user(user_id,external_subject,is_superuser) values(?,?,false)", USER, "phase7c-human");
         jdbc.update("insert into idax_core.tenant_user(tenant_id,user_id,role) values(?,?,?)", TENANT_A, USER, "user");
         jdbc.update("insert into idax_core.idax_role(role_id,tenant_id,role_key,name) values(?,?,?,?)", ROLE_A, TENANT_A, "ostris-reader", "osTRIS reader");
@@ -120,7 +120,7 @@ class HttpSecurityPostgresTest {
         jdbc.update("insert into idax_core.idax_role_permission(role_id,permission_code) values(?,?)", ROLE_A, "OSTRIS_READ");
         jdbc.update("insert into ostris.community(id,tenant_id,name) values(?,?,?),(?,?,?)", COMMUNITY_A, TENANT_A, "A", COMMUNITY_B, TENANT_B, "B");
         jdbc.update("insert into ostris.participant(id,tenant_id,community_id,display_name) values(?,?,?,?),(?,?,?,?)", PARTICIPANT_A, TENANT_A, COMMUNITY_A, "Public A", PARTICIPANT_B, TENANT_B, COMMUNITY_B, "Private B");
-        assertEquals(6, jdbc.queryForObject("select count(*) from idax_core.idax_permission where module_key='ostris' and source_type='IDAX_MODULE'", Integer.class));
+        assertEquals(12, jdbc.queryForObject("select count(*) from idax_core.idax_permission where module_key='ostris' and source_type='IDAX_MODULE'", Integer.class));
         initialized = true;
     }
 
