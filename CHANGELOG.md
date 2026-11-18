@@ -1,5 +1,25 @@
 # Changelog
 
+## [Unreleased]
+
+- Add an application surface for the governance inputs adjudicated
+  transactions already require (migration V8 guards their lifecycle):
+  - `POST /api/ostris/communities/{c}/resolution-authorities` registers a new
+    version of the community resolution authority (controllers and threshold,
+    `OSTRIS_COMMUNITY_MANAGE`). The previous version stops being effective
+    from the next committed sequence; `GET .../resolution-authorities/current`
+    reads the effective one.
+  - `POST /api/ostris/communities/{c}/resolution-bases` records a basis as
+    `PENDING`, and `POST .../resolution-bases/{id}/finality` moves it to
+    `FINAL` or `OVERTURNED` (new permission `OSTRIS_RESOLUTION_RECORD`).
+  - `GET /api/ostris/transactions/{id}/governance-payload` returns the exact
+    text an authority controller signs under `OSTRIS:TX:GOVAUTH:V1`.
+- None of these authorizes a transaction by itself. The commit gate still
+  requires the authority's threshold signatures over the governed payload and
+  re-checks authority, basis finality and every signature at the commit
+  sequence. A recorded finality is an assertion by an authorized caller, not a
+  verifiable proof of the process that produced it.
+
 ## [0.5.0] - 2026-11-16
 
 - Require IDAX Core Runtime 0.5.0.

@@ -69,6 +69,13 @@ permissions:
     labelKey: ostris.permissions.participant.read
     apiPath: /api/ostris/participants/*/*
     description: Read public participant information through the application API.
+  - code: OSTRIS_RESOLUTION_RECORD
+    resourceKey: ostris.resolution
+    fieldKey: null
+    actionKey: record
+    labelKey: ostris.permissions.resolution.record
+    apiPath: /api/ostris/communities/*/resolution-bases/**
+    description: Record a resolution basis and its finality or overturning. It authorizes no transaction by itself; adjudicated transactions still need the resolution authority's threshold signatures.
   - code: OSTRIS_TRANSACTION_AUTHORIZE
     resourceKey: ostris.transaction
     fieldKey: null

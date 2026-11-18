@@ -120,7 +120,7 @@ class HttpSecurityPostgresTest {
         jdbc.update("insert into idax_core.idax_role_permission(role_id,permission_code) values(?,?)", ROLE_A, "OSTRIS_READ");
         jdbc.update("insert into ostris.community(id,tenant_id,name) values(?,?,?),(?,?,?)", COMMUNITY_A, TENANT_A, "A", COMMUNITY_B, TENANT_B, "B");
         jdbc.update("insert into ostris.participant(id,tenant_id,community_id,display_name) values(?,?,?,?),(?,?,?,?)", PARTICIPANT_A, TENANT_A, COMMUNITY_A, "Public A", PARTICIPANT_B, TENANT_B, COMMUNITY_B, "Private B");
-        assertEquals(12, jdbc.queryForObject("select count(*) from idax_core.idax_permission where module_key='ostris' and source_type='IDAX_MODULE'", Integer.class));
+        assertEquals(13, jdbc.queryForObject("select count(*) from idax_core.idax_permission where module_key='ostris' and source_type='IDAX_MODULE'", Integer.class));
         initialized = true;
     }
 

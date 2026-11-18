@@ -50,6 +50,7 @@ class OstrisPermissionCatalogPostgresTest {
             "OSTRIS_LEDGER_OUTBOX_REPLAY",
             "OSTRIS_PARTICIPANT_ACTIVATE",
             "OSTRIS_READ",
+            "OSTRIS_RESOLUTION_RECORD",
             "OSTRIS_TRANSACTION_AUTHORIZE",
             "OSTRIS_TRANSACTION_COMMIT",
             "OSTRIS_TRANSACTION_CREATE",

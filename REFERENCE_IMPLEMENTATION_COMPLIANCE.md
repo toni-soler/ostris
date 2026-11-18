@@ -26,7 +26,10 @@ Phase 6 commits: backend `d9db9ec`, `3c1269d`, `f4cd1f2`; frontend `1a85575`; ma
 | Transaction commit | `OSTRIS_TRANSACTION_COMMIT` |
 | Private continuity read | `OSTRIS_IDENTITY_CONTINUITY_READ_PRIVATE` |
 | Continuity decision creation | `OSTRIS_IDENTITY_CONTINUITY_MANAGE` |
+| Resolution authority registration (Unreleased) | `OSTRIS_COMMUNITY_MANAGE` |
+| Resolution basis record and finality/overturn (Unreleased) | `OSTRIS_RESOLUTION_RECORD` |
+| Governance signing payload read (Unreleased) | `OSTRIS_TRANSACTION_READ` |
 
-There are no current HTTP endpoints for direct journal mutation, balance adjustment, policy/controller/credential or governance-authority management, Finding/Resolution transitions, or manual proof-outbox insertion. Those absent capabilities are not claimed as implemented.
+There are no current HTTP endpoints for direct journal mutation, balance adjustment, policy changes, Finding transitions, or manual proof-outbox insertion. Those absent capabilities are not claimed as implemented. The Unreleased resolution surface records an authority version and a basis status; it never authorizes or commits a transaction by itself, and a recorded finality is an assertion by the authorized caller, not a verifiable proof of an external process.
 
 `LEDGER INTEGRATION: PENDING`
